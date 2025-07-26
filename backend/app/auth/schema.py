@@ -1,16 +1,17 @@
-from pydantic import BaseModel, EmailStr
+# schema.py
+from pydantic import BaseModel
 
 
 class UserCreate(BaseModel):
-    email: EmailStr
+    email: str
     password: str
-
-
-class UserOut(BaseModel):
-    id: str
-    email: EmailStr
 
 
 class Token(BaseModel):
     access_token: str
     token_type: str
+
+
+class UserOut(BaseModel):
+    id: str
+    email: str

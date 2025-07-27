@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from app.config.db import db
+from ..config.db import db
 from ..auth.adminschema import AdminLogin
 from ..auth.hasing import verify_password
 from ..auth.utils import create_access_token

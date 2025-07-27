@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, Depends
 from bson import ObjectId
-from app.config.db import db
+from config.db import db
 from app.auth.dependencies import get_current_user
 from app.auth.cart_schema import CartItem, CartOutItem, UpdateCartQuantity
 from typing import List

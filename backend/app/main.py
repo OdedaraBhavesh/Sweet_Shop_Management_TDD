@@ -1,7 +1,10 @@
 from fastapi.responses import JSONResponse
 from fastapi import Request
 from fastapi import FastAPI
-from app.auth.router import router as auth_router
+from fastapi import HTTPException
+from bson import ObjectId
+
+from .auth.router import router as auth_router
 from .routes.user import router as user_router
 from .routes.sweets import router as sweets_router
 from .routes.admin import router as admin_router
@@ -10,8 +13,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.models.incomingregister import RegisterUser
 from app.models.collection import users_collection
 from app.models.incomingLogin import LoginUser
-
-
 app = FastAPI(title="The Sweet Spot")
 
 app.include_router(auth_router)
@@ -60,59 +61,3 @@ async def login_user(user: LoginUser):
         raise HTTPException(status_code=401, detail="Incorrect password")
 
     return {"message": "Login successful"}
-
-
-@app.post("/cart")
-async def add_to_cart(item: dict):
-    cart_collection.insert_one(item)
-    return {"message": "Item added to cart"}
-
-# Get cart items
-
-
-@app.get("/cart")
-async def get_cart():
-    items = list(cart_collection.find({}, {'_id': 0}))  # exclude _id if needed
-    return items
-
-# Remove from cart
-
-
-@app.delete("/cart/{item_id}")
-async def remove_from_cart(item_id: str):
-    cart_collection.delete_one({"_id": ObjectId(item_id)})
-    return {"message": "Item removed from cart"}
-
-
-@app.post("/cart/add")
-async def add_to_cart(request: Request):
-    data = await request.json()
-    sweet_id = data.get("sweet_id")
-    quantity = data.get("quantity", 1)
-
-    user_id = request.session.get("user_id")
-    if not user_id:
-        return JSONResponse({"message": "Not logged in"}, status_code=401)
-
-    carts.insert_one({
-        "user_id": user_id,
-        "sweet_id": sweet_id,
-        "quantity": quantity
-    })
-    return {"message": "Added to cart"}
-
-
-@app.delete("/cart/remove")
-async def remove_from_cart(request: Request):
-    data = await request.json()
-    sweet_id = data.get("sweet_id")
-
-    user_id = request.session.get("user_id")
-    if not user_id:
-        return JSONResponse({"message": "Not logged in"}, status_code=401)
-
-    carts.delete_one({
-        "user_id": user_id,
-        "sweet_id": sweet_id
-    })
-    return {"message": "Removed from cart"}

@@ -8,3 +8,4 @@ db = client["sweetshop"]
 
 # Access the 'users' collection
 users_collection = db["users"]
+# sweets = db["sweets"]

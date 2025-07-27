@@ -1,13 +1,13 @@
 from fastapi import APIRouter, HTTPException, Depends, Query
 from bson import ObjectId
 from typing import Optional, List
-
+from ..config.jwt_bearer import JWTBearer
 from ..models.sweets import SweetCreate, SweetOut, SweetUpdate
 from ..config.db import db
 from ..auth.dependencies import get_current_user
 from ..auth.dependencies import get_current_admin  # User auth dependency
 from pydantic import BaseModel
-
+from ..models.cart import AddToCartModel
 router = APIRouter(prefix="/sweets", tags=["Sweets"])
 sweets_collection = db["sweets"]
 
@@ -132,3 +132,25 @@ async def restock_sweet(id: str, quantity: RestockRequest):
     else:
         raise HTTPException(
             status_code=500, detail="Failed to update sweet quantity")
+
+
+@router.post("/{sweet_id}/purchase", dependencies=[Depends(JWTBearer())])
+async def purchase_sweet(sweet_id: str, current_user: dict = Depends(get_current_user)):
+    sweet = sweets.find_one({"_id": ObjectId(sweet_id)})
+    if not sweet or sweet["quantity"] <= 0:
+        raise HTTPException(status_code=400, detail="Sweet not available")
+
+    sweets.update_one({"_id": ObjectId(sweet_id)}, {"$inc": {"quantity": -1}})
+    return {"message": "Purchase successful"}
+
+
+@router.post("/cart/add", dependencies=[Depends(JWTBearer())])
+async def add_to_cart(cart_item: AddToCartModel, current_user: dict = Depends(get_current_user)):
+    user_id = current_user["_id"]
+    cart_item_data = {
+        "user_id": user_id,
+        "sweet_id": cart_item.sweet_id,
+        "quantity": cart_item.quantity
+    }
+    carts.insert_one(cart_item_data)
+    return {"message": "Item added to cart"}

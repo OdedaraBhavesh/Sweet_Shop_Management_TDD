@@ -9,6 +9,8 @@ from .routes.carts import router as cart_router
 from fastapi.middleware.cors import CORSMiddleware
 from app.models.incomingregister import RegisterUser
 from app.models.collection import users_collection
+from app.models.incomingLogin import LoginUser
+
 
 app = FastAPI(title="Sweet Shop Management")
 
@@ -44,3 +46,17 @@ async def register_user(user: RegisterUser):
     # Insert into database
     users_collection.insert_one(user.dict())
     return {"message": "User registered successfully"}
+
+
+@app.post("/login")
+async def login_user(user: LoginUser):
+    # Check if user with email exists
+    existing_user = users_collection.find_one({"email": user.email})
+    if not existing_user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    # Check if password matches
+    if existing_user["password"] != user.password:
+        raise HTTPException(status_code=401, detail="Incorrect password")
+
+    return {"message": "Login successful"}

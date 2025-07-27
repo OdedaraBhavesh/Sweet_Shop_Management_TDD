@@ -52,6 +52,8 @@ We followed a strict TDD approach:
 - Backend tests written using **unittest**.
 - Frontend interactions tested using **React Testing Library** (optional but recommended).
 
+UI Overview
+![App Screenshot](C:\Users\Admin\OneDrive\Pictures\Screenshots)
 
 
 

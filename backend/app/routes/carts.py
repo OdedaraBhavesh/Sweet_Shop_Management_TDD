@@ -81,3 +81,5 @@ async def remove_from_cart(sweet_id: str, user=Depends(get_current_user)):
         raise HTTPException(status_code=404, detail="Item not found in cart")
 
     return {"message": "Item removed from cart successfully"}
+
+# Add to cart

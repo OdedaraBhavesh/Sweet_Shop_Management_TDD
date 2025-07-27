@@ -1,63 +1,106 @@
+
 .home-container {
-  padding: 20px;
-  font-family: Arial;
+  padding: 2rem;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-h1 {
-  color: #d6336c;
+.header {
   text-align: center;
+  color: #d6336c;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
 }
 
-.card {
-  background: #fff;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 0 5px rgba(0,0,0,0.1);
-  margin: 20px 0;
+.footer {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  color: #888;
+}
+
+.sweet-section {
+  max-width: 1000px;
+  margin: auto;
+}
+
+.filter-card, .add-sweet-card {
+  background: #fff5f8;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.filter-grid, .add-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.filter-actions {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  gap: 0.5rem;
 }
 
-input, select {
-  padding: 6px;
+input {
+  padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 6px;
 }
 
 button {
-  padding: 6px 12px;
+  padding: 0.5rem 1rem;
   border: none;
   border-radius: 6px;
   cursor: pointer;
 }
 
-.apply-btn {
-  background: #e63946;
-  color: white;
+button:hover {
+  opacity: 0.9;
 }
 
 .add-btn {
-  background: #2a9d8f;
+  background: #20c997;
   color: white;
+}
+
+.buy-btn {
+  background: #fd5c63;
+  color: white;
+  margin-left: 0.5rem;
+}
+
+.restock-btn {
+  background: #f06292;
+  color: white;
+  margin-left: 0.5rem;
 }
 
 .delete-btn {
-  background: #d62828;
+  background: #dc3545;
   color: white;
 }
 
-.sweets-table {
+.sweet-table {
   width: 100%;
   border-collapse: collapse;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
-.sweets-table th, .sweets-table td {
-  padding: 8px;
+.sweet-table th, .sweet-table td {
+  padding: 0.8rem;
   text-align: center;
   border-bottom: 1px solid #eee;
 }
 
-.sweets-table th {
-  background-color: #ffe0e0;
+.sweet-table thead {
+  background-color: #ffd6dc;
+  font-weight: bold;
+}
+
+.sweet-table tr:last-child td {
+  border-bottom: none;
 }

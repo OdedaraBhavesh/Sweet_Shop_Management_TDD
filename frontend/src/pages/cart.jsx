@@ -1,5 +1,7 @@
-// src/pages/Home.jsx
-function Cart() {
-  return <h1>Welcome to Sweet Store 🍬 Cart Page</h1>;
-}
-export default Cart;
+const [cart, setCart] = useState([]);
+
+const fetchCart = async () => {
+  const res = await fetch('http://localhost:8000/cart');
+  const data = await res.json();
+  setCart(data);
+};

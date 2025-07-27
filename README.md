@@ -52,14 +52,6 @@ We followed a strict TDD approach:
 - Backend tests written using **unittest**.
 - Frontend interactions tested using **React Testing Library** (optional but recommended).
 
-### 🧪 Backend Setup
-cd backend
-pip install necessary library
-uvicorn app.main:app --reload
 
-
-### 🌐 Frontend Setup
-npm install
-npm run dev
 
 
